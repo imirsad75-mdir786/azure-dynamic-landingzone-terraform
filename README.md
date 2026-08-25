@@ -1,2 +1,28 @@
 # azure-dynamic-landingzone-terraform
 🚀 Fully production-ready, ultra-scalable &amp; dynamic Hub-and-Spoke Enterprise Azure Landing Zone built with zero-hardcoding reusable Terraform child modules and nested maps. No more data-blocks, just pure automated infrastructure wizardry! ✨
+  # 🚀 Enterprise Azure Landing Zone (Dynamic & Data-Driven)
+
+[![Terraform](https://shields.io>=1.0.0-7B42BC?logo=terraform&logoColor=white&style=for-the-badge)](https://terraform.io)
+[![Azure](https://shields.io)](https://terraform.io)
+[![Architecture](https://shields.io)](#)
+
+एक पूरी तरह से प्रोडक्शन-रेडी, अत्यधिक स्केलेबल और डेटा-ड्रिवेन (Data-Driven) **Azure Landing Zone Infrastructure as Code (IaC)**। इस आर्किटेक्चर को बिना किसी हार्डकोडिंग के, पूरी तरह से री-यूजेबल चाइल्ड मॉड्यूल्स और एडवांस्ड टेराफॉर्म लॉजिक पर डिज़ाइन किया गया है।
+
+---
+
+## 🛠️ Advanced Terraform Tech Stack Used
+
+इस प्रोजेक्ट में टेराफॉर्म के सबसे एडवांस्ड और कॉर्पोरेट-लेवल के फीचर्स का इस्तेमाल किया गया है:
+
+* **🔄 Dynamic `for_each` Loops:** चाइल्ड मॉड्यूल्स में हार्डकोडेड रिसोर्स ब्लॉक्स लिखने के बजाय `for_each` का इस्तेमाल किया गया है। इससे आप सिर्फ `.tfvars` में डेटा बढ़ाकर एक साथ कई वीनेट, सबनेट या वीएम बना सकते हैं।
+* **🔍 `lookup()` Functions (Fail-Safe Code):** वीएम और एनआईसी (NIC) मॉड्यूल में `lookup()` का चालाकी से उपयोग किया गया है। अगर यूज़र `.tfvars` फ़ाइल को छोटा रखने के लिए ओएस डिस्क टाइप, साइज या इमेज पब्लिशर जैसी चीजें नहीं भी लिखता, तो कोड क्रैश होने के बजाय अपने आप डिफ़ॉल्ट रूप से **Ubuntu 22.04 LTS** और **Standard_B1s** जैसी सेटिंग्स उठा लेता है।
+* **🔗 Parent & Child Modules Hierarchy:** पूरे इंफ्रास्ट्रक्चर को पैरेंट और चाइल्ड मॉड्यूल्स में डी-कपल्ड (Decoupled) किया गया है। इससे मुख्य कोडिंग लॉजिक पूरी तरह से सुरक्षित और री-यूजेबल रहता है।
+* **🎯 Module Outputs & Implicit Dependencies:** किसी भी `data` ब्लॉक का इस्तेमाल किए बिना, सबनेट और एनआईसी की लाइव IDs को `outputs.tf` के ज़रिए पैरेंट मॉड्यूल में ट्रांसफर किया गया है। टेराफॉर्म रन-टाइम पर लाइव आईडी को फेच करके सही एनआईसी और वीएम के साथ डायनेमिकली मैप कर देता है।
+* **🚦 Explicit Dependencies (`depends_on`):** सही डिप्लॉयमेंट सीक्वेंस बनाए रखने के लिए पैरेंट लेवल पर `depends_on` का सटीक उपयोग किया गया है (जैसे: रिसोर्स ग्रुप बनने के बाद ही नेटवर्क बनेगा, और नेटवर्क पूरा होने के बाद ही वीएम बनेगी)।
+
+---
+
+## 🏗️ Core Dependency & Deployment Flow
+
+टेराफॉर्म का इन-बिल्ट डिपेंडेंसी ग्राफ स्वचालित रूप से रिसोर्सेस को नीचे दिए गए क्रम में लाइव करता है:
+
