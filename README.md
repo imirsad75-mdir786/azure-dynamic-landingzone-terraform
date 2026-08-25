@@ -20,6 +20,53 @@
 * **🎯 Module Outputs & Implicit Dependencies:** किसी भी `data` ब्लॉक का इस्तेमाल किए बिना, सबनेट और एनआईसी की लाइव IDs को `outputs.tf` के ज़रिए पैरेंट मॉड्यूल में ट्रांसफर किया गया है। टेराफॉर्म रन-टाइम पर लाइव आईडी को फेच करके सही एनआईसी और वीएम के साथ डायनेमिकली मैप कर देता है।
 * **🚦 Explicit Dependencies (`depends_on`):** सही डिप्लॉयमेंट सीक्वेंस बनाए रखने के लिए पैरेंट लेवल पर `depends_on` का सटीक उपयोग किया गया है (जैसे: रिसोर्स ग्रुप बनने के बाद ही नेटवर्क बनेगा, और नेटवर्क पूरा होने के बाद ही वीएम बनेगी)।
 
+* ---
+
+## 🛠️ Quick Start Deployment Guide
+
+### 1. Pre-requisites
+* [Terraform v1.0.0+](https://terraform.io) installed.
+* [Azure CLI](https://microsoft.com) authenticated via `az login`.
+
+### 2. Execution Commands
+अपने टर्मिनल को ओपन करें और रूट लेवल के `parents/` फ़ोल्डर में जाकर नीचे दिए गए कमांड्स रन करें:
+
+```bash
+# 1. प्रोवाइडर प्लगइन्स और लोकल मॉड्यूल्स को इनिशियलाइज़ करें
+terraform init
+
+# 2. इन्फ्रास्ट्रक्चर डिपेंडेंसी और स्टेट ग्राफ का प्लान जनरेट करें
+terraform plan
+
+# 3. लाइव क्लाउड एनवायरनमेंट पर डिप्लॉयमेंट शुरू करें
+terraform apply -auto-approve
+```
+
+> 🧹 **Cost Optimization Tip:** टेस्टिंग पूरी होने के बाद अपने अज़ूर क्रेडिट्स बचाने के लिए `terraform destroy -auto-approve` कमांड चलाकर पूरे लैंडिंग ज़ोन को सिंगल-क्लिक में साफ़ करना न भूलें।
+
+---
+
+## 📂 Production Directory Layout
+
+```text
+├── child_modules/               # Core Architecture Building Blocks (Reusable)
+│   ├── resource_group/          # Core Container Isolation Logic
+│   ├── virtual_network/         # Network Layer Resource
+│   ├── subnets/                 # Subnet Segmentations & Dynamic ID Outputs
+│   ├── public ip/               # External Connectivity Mapping
+│   ├── nsg/                     # Network Security Group Filters
+│   ├── nic/                     # Smart Interface with Internal Lookup Configs
+│   └── virtual_machine/         # Self-Healing VM Provisioning Module
+└── parents/                     # Global Orchestration & Environment Layer
+    ├── main.tf                  # Parent Loops & Implicit ID Association
+    ├── variable.tf              # Schema Definitions for Object Maps
+    ├── outputs.tf               # Consolidated Infrastructure Reports
+    └── terraform.tfvars         # Your Minimal, Clean Config File (Nested Maps)
+```
+
+---
+*Maintained with 💻 by DevOps Engineers who hate manual copy-pasting.*
+
 ---
 
 ## 🏗️ Core Dependency & Deployment Flow
