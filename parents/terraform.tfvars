@@ -4,6 +4,10 @@ resource_groups = {
     name     = "lz-enterprise-rg"
     location = "eastus"
   }
+  "rg2" = {
+    name     = "lz-shared-rg"
+    location = "eastus"
+  }
 }
 
 # 2. VIRTUAL NETWORK MAP
